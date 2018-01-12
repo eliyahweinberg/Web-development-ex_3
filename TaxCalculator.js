@@ -5,6 +5,7 @@ var loadPage = function() {
     var $input = $("<input/>").attr({'id' : label, 'type' : "number"});
     var $cBox = $("<label>");
     
+    
     var cssWidth = { "width" : "110px", "display" : "inline-block", "margin-left" : "5px"};
     var cssMonthWidth = {"width" : "100px", "display" : "inline-block", "margin-left" : "5px"};
     
@@ -23,14 +24,27 @@ var loadPage = function() {
     monthArr.forEach(function(item,index){
         var label = txt + item;
         var $mLabel = $("<label>").attr('for', label);
+        var $mInput = $("<input/>").attr({'id' : label, 'type' : "number"});
         $mLabel.css(cssMonthWidth);
-        $mLabel.text(item);
+        $mLabel.text(item + ":");
         $("#monthTax").append($mLabel);
+        $("#monthTax").append($mInput);
         $("#monthTax").append("</br>");
         
         }
     );
-
+    
+    label = "txtBonus";
+    var $bLabel = $("<label>").attr('for', label);
+    var $bInput = $("<input/>").attr({'id' : label, 'type' : "number"});
+    $bLabel.css(cssWidth);
+    $bLabel.text("Bonus Points: ");
+    $("#cmdCalculate").before("</br>");
+    $("#cmdCalculate").before($bLabel);
+    $("#cmdCalculate").before($bInput);
+    $("#cmdCalculate").before("</br>");
+    
+    $("#cmdCheck").change(checkBoxListner);
   
     
 //    $("#monthTax").hide();
@@ -47,6 +61,14 @@ function calculateTotal(){
 
 function calculateMonthTax(salary, points){
     
+}
+
+var checkBoxListner = function(){
+    if (this.checked) {
+            alert('checked');
+        }
+    else if (!this.checked)
+        alert('unchecked');
 }
 
 $("document").ready(loadPage);
