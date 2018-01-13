@@ -67,7 +67,7 @@ function calculateTotal(){
             if (this.value < 0)
                 wrongInput = true;
             else 
-                salary += this.value;
+                salary += this.value != "" ? parseFloat(this.value) : 0;
             }
         );
     }
@@ -82,12 +82,11 @@ function calculateTotal(){
     $("#txtResult").text("Total tax is: " + result);
 }
 
-function calculateMonthTax(tSalary, points){
+function calculateMonthTax(salary, points){
     var taxSteps = [74640, 107040, 171840, 238800, 496920, 639996];
     var taxValues = [0.1, 0.14, 0.2, 0.31, 0.35, 0.47, 0.5];
     const POINT_VALUE = 2580;
     points *= POINT_VALUE;
-    
     var tax=0;
     var step;    
     for(var i=6; i>0; i--){
