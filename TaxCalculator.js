@@ -48,51 +48,48 @@ var loadPage = function() {
 
 function calculateTotal(){
     var result = 0;
+    var salary = 0;
     var wrongInput = false;
-    var bonus = $("#txtBonus").val();
+    var bonus = $("#txtBonus").val() != "" ? parseFloat($("#txtBonus").val()) : 0;
+    if (bonus < 0)
+         wrongInput = true;
+    
     if ($("#cmdCheck").is(":checked")){
         
         //check inputs
-        
-        result = calculateMonthTax($("#txtBase").val(), bonus);
-        if (result === -1)
+        salary = $("#txtBase").val() != "" ? parseFloat($("#txtBase").val()) : 0;
+        if (salary < 0)
             wrongInput = true;
-        result *= 12;
-            
+        salary *= 12;      
     }
     else{
         $('#monthTax').children('input').each(function () {
-            var res = calculateMonthTax(this.value, bonus);
-            if (res === -1)
+            if (this.value < 0)
                 wrongInput = true;
-            result += res;
-            
-            
-            alert(this.value);
+            else 
+                salary += this.value;
             }
         );
     }
     
     if (wrongInput){
         alert("Input can't be negative");
-            return;
+        return;
     }
+    
+    result = calculateMonthTax(salary, bonus);
     
     $("#txtResult").text("Total tax is: " + result);
 }
 
-function calculateMonthTax(tSalary, tPoints){
-    var taxSteps = [6220, 8920, 14320, 19900, 41410, 53333];
+function calculateMonthTax(tSalary, points){
+    var taxSteps = [74640, 107040, 171840, 238800, 496920, 639996];
     var taxValues = [0.1, 0.14, 0.2, 0.31, 0.35, 0.47, 0.5];
-    const POINT_VALUE = 215;
-    var salary = tSalary != "" ? parseFloat(tSalary) : 0;
-    var points = tPoints != "" ? parseFloat(tPoints) : 0;
+    const POINT_VALUE = 2580;
     points *= POINT_VALUE;
-    var tax=0;
-    var step;
-    if (salary < 0 || points < 0)
-        return -1;
     
+    var tax=0;
+    var step;    
     for(var i=6; i>0; i--){
         step = salary-taxSteps[i-1] > 0 ? salary-taxSteps[i-1] : 0;
         if (step != 0)
